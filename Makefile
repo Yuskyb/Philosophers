@@ -13,8 +13,9 @@
 NAME = philo
 CC = cc
 INCLUDES_DIR = ./includes
-CFLAGS = -Wall -Wextra  -Werror -I$(INCLUDES_DIR)
-SRCS = philo.c
+CFLAGS =-I$(INCLUDES_DIR)
+SRCS =  philo.c \
+		philo_utils_init
 
 OBJS = $(SRCS:.c=.o)
 

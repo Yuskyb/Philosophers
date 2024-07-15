@@ -30,9 +30,19 @@
 
 typedef struct s_philo
 {
-	pthread_t	thread;
-	int			id;
-	int			eating;
+	pthread_t		thread;
+	int				id;
+	int				dead_time;
+	int				eat_time;
+	int				sleep_time;
+	int				eat_count;
+	pthread_mutex_t	left_fork;
+	pthread_mutex_t	right_fork;
+	int				eat_count_goal;
 } t_philo;
+
+t_philo	*philo_init(int count_tmp, int dead_tmp, \
+			int eat_tmp, int sleep_tmp, int goal_tmp);
+void	fork_init(t_philo *philo, int philo_count);
 
 #endif
