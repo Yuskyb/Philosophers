@@ -1,4 +1,16 @@
-#include	"philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_utils_init.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yususato <yususato@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/16 13:40:06 by yususato          #+#    #+#             */
+/*   Updated: 2024/07/16 13:40:38 by yususato         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 t_philo	*philo_init(int count_tmp, int dead_tmp, int eat_tmp, int sleep_tmp, int goal_tmp)
 {

@@ -6,7 +6,7 @@
 #    By: yususato <yususato@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/12 21:36:18 by yususato          #+#    #+#              #
-#    Updated: 2024/07/12 22:00:53 by yususato         ###   ########.fr        #
+#    Updated: 2024/07/16 13:41:19 by yususato         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ CC = cc
 INCLUDES_DIR = ./includes
 CFLAGS =-I$(INCLUDES_DIR)
 SRCS =  philo.c \
-		philo_utils_init
+		philo_utils_init.c \
+		fork_lock.c \
+		fork_unlock.c \
+		philo_loop.c
 
 OBJS = $(SRCS:.c=.o)
 
