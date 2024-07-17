@@ -40,12 +40,33 @@ void	thread_init(t_philo *philo, int philo_count)
 	int			index;
 
 	index = 0;
-	thread_index = (pthread_t *)malloc(sizeof(pthread_t) * philo_count);
+	thread_index = (pthread_t *)malloc(sizeof(pthread_t) * (philo_count + 1));
 	if (thread_index == NULL)
 		exit(0);
-	while (index < philo_count)
+	while (thread_index[index])
 	{
 		philo[index].thread = thread_index[index];
+		index++;
+	}
+	thread_index[index] == '\0';
+	index = 0;
+	while (index < philo_count)
+	{
+		pthred_create(&philo[i], NULL, philo_loop(philo, philo_count));
+		index++;
+	}
+	return ;
+}
+
+void	fork_mutex_init(t_mutex_thread *fork)
+{
+	int	index;
+
+	index = 0;
+	while (fork[index])
+	{
+		if (mutex_init(&fork[i], NULL) != 0)
+			exit(0);
 		index++;
 	}
 	return ;
@@ -57,9 +78,10 @@ void	fork_init(t_philo *philo, int philo_count)
 	t_mutex_thread	*fork;
 
 	index = 0;
-	fork = (t_mutex_thread *)malloc(sizeof(t_mutex_thread) * philo_count);
+	fork = (t_mutex_thread *)malloc(sizeof(t_mutex_thread) * (philo_count + 1));
 	if (fork == NULL)
 		exit(0);
+	fork_mutex_init(fork);
 	while (index < philo_count)
 	{
 		philo[index].left_fork = fork[index];
