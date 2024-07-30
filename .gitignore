@@ -2,7 +2,6 @@
 .vscord
 *.o
 *.a
-philo
 *.txt
 *.sh
 *.env
