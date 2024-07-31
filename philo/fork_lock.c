@@ -42,14 +42,6 @@ void	lock_rightfork(t_philo *philo)
 
 void	lock_fork(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
-		lock_leftfork(philo);
-		lock_rightfork(philo);
-	}
-	else
-	{
-		lock_rightfork(philo);
-		lock_leftfork(philo);
-	}
+	lock_leftfork(philo);
+	lock_rightfork(philo);
 }

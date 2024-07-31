@@ -14,18 +14,12 @@
 
 bool	thread_init(t_table_info *table_tmp, t_philo *philo_tmp, int philo_count)
 {
-	pthread_t	*thread_index;
-	pthread_t	supervisor_tmp;;
 	int			index;
 
 	index = 0;
-	thread_index = (pthread_t *)malloc(sizeof(pthread_t) * philo_count);
-	if (thread_index == NULL)
-		return (false);
 	while (index < philo_count)
 	{
 		philo_tmp[index].table = table_tmp;
-		philo_tmp[index].thread = thread_index[index];
 		index++;
 	}
 	table_tmp->philo = philo_tmp;
@@ -38,7 +32,6 @@ bool	thread_init(t_table_info *table_tmp, t_philo *philo_tmp, int philo_count)
 			return (false);
 		index++;
 	}
-	table_tmp->supervisor = supervisor_tmp;
 	pthread_create(&(table_tmp->supervisor), NULL, supervisor_loop, table_tmp);
 	return (true);
 }

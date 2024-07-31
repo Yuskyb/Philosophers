@@ -1,8 +1,19 @@
 # include "philo.h"
 
-bool	check_full_eat_count(t_philo *philo, int index)
+bool	check_full_eat_count(t_table_info *table)
 {
-	if (philo[index].eat_count == philo[index].eat_count_goal)
+	int	index;
+	int	count;
+
+	index = 0;
+	count = 0;
+	while (index < table->philo_count)
+	{
+		if (table->philo[index].eat_count == table->eat_count_goal)
+			count++;
+		index++;
+	}
+	if (count == table->philo_count)
 		return (true);
 	return (false);
 }
@@ -57,14 +68,13 @@ void	*supervisor_loop(void *argc)
 				pthread_mutex_lock(&table->stop_lock);
 				table->stop_flag = true;
 				pthread_mutex_lock(&table->write_lock);
-				// printf("philo%ld\n",get_current_ms_time() - table->philo[index].last_eat_time);
 				printf("%ld %d dead\n", get_current_ms_time() - table->eat_start_time, table->philo[index].id);
 				pthread_mutex_unlock(&table->write_lock);
 				pthread_mutex_unlock(&table->stop_lock);
 				pthread_mutex_unlock(table->philo[index].eat_count_lock);
 				return (NULL);
 			}
-			if (table->eat_count_goal_flag == true && check_full_eat_count(table->philo, index))
+			if (table->eat_count_goal_flag == true && check_full_eat_count(table))
 			{
 				pthread_mutex_lock(&table->stop_lock);
 				table->stop_flag = true;
@@ -85,6 +95,7 @@ void	only_philo(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		printf("%ld %d has taken a fork\n", get_current_ms_time() - philo->table->eat_start_time, philo->id);
+		ft_usleep(philo->table->dead_time);
 		printf("%ld %d dead\n", get_current_ms_time() - philo->table->eat_start_time, philo->id);
 		pthread_mutex_unlock(philo->left_fork);
 	}

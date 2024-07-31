@@ -39,3 +39,21 @@ void	free_fork(t_philo *philo)
 	}
 	return ;
 }
+
+void	ft_free_table(t_table_info *table)
+{
+	int		index;
+
+	index = 0;
+	if (table == NULL)
+		return ;
+	while (index < table->philo_count)
+	{
+		free(table->philo[index].left_fork);
+		free(table->philo[index].eat_count_lock);
+		index++;
+	}
+	free(table->philo);
+	free(table);
+	return ;
+}

@@ -22,6 +22,8 @@ bool	destroy_fork(t_table_info *table, t_philo *philo, int philo_count)
 	index = 0;
 	if (pthread_mutex_destroy(&table->stop_lock) != 0)
 			return (false);
+	if (pthread_mutex_destroy(&table->write_lock) != 0)
+			return (false);
 	while (index < philo_count)
 	{
 		if (pthread_mutex_destroy(philo[index].left_fork) != 0)
@@ -30,6 +32,5 @@ bool	destroy_fork(t_table_info *table, t_philo *philo, int philo_count)
 			return (false);
 		index++;
 	}
-	pthread_mutex_destroy(&table->stop_lock);
 	return (true);
 }

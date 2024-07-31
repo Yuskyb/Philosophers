@@ -6,3 +6,4 @@
 *.sh
 *.env
 a.out
+*.plist

@@ -37,7 +37,6 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				id;
 	int				eat_count;
-	int				eat_count_goal;
 	long			last_eat_time;
 	bool			dead_flag;
 	pthread_mutex_t	*eat_count_lock;
@@ -54,6 +53,7 @@ typedef struct	s_table_info
 	long			eat_time;
 	int				sleep_time;
 	long			eat_start_time;
+	int				eat_count_goal;
 	bool			stop_flag;
 	bool			eat_count_goal_flag;
 	pthread_mutex_t write_lock;
@@ -87,5 +87,7 @@ void	*supervisor_loop(void *argc);
 bool	check_dead_philo(t_philo *philo);
 void	wait_start_dinner_time(t_table_info *table);
 void	only_philo(t_philo *philo);
+void	ft_free_table(t_table_info *table);
+void	ft_usleep(long time);
 
 #endif

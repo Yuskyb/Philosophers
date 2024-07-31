@@ -39,7 +39,6 @@ t_philo	*philo_init(int count_tmp, int goal_tmp)
 	{
 		philo[index].id = index + 1;
 		philo[index].eat_count = 0;
-		philo[index].eat_count_goal = goal_tmp;
 		philo[index].dead_flag = false;
 		index++;
 	}
@@ -66,7 +65,10 @@ int	main(int ac, char **av)
 	if (table_philo_mutex_init(table, philo, atoi(av[1])) == false)
 		return (0);
 	if (ac == 6)
+	{
+		table->eat_count_goal = atoi(av[5]);
 		table->eat_count_goal_flag = true;
+	}
 	else
 		table->eat_count_goal_flag = false;
 	if (thread_init(table, philo, atoi(av[1])) == false)
