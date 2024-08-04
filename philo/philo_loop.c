@@ -6,7 +6,7 @@
 /*   By: yususato <yususato@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:40:14 by yususato          #+#    #+#             */
-/*   Updated: 2024/07/16 13:40:15 by yususato         ###   ########.fr       */
+/*   Updated: 2024/08/04 22:56:34 by yususato         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,70 +18,58 @@ void	ft_usleep(long time)
 
 	start = get_current_ms_time();
 	while (get_current_ms_time() - start < time)
-		usleep((time * 1000) / 100000);
+		usleep(1 / 100000);
 	return ;
 }
 
-void	philo_thinking(t_philo *philo)
+bool	philo_thinking(t_philo *philo)
 {
-
 	pthread_mutex_lock(&philo->table->write_lock);
-	if (philo->table->stop_flag == true)
-	{
-		pthread_mutex_unlock(&philo->table->write_lock);
-		return ;
-	}
-	printf("%ld %d is thinking\n", get_current_ms_time() - philo->table->eat_start_time, philo->id);
+	if (check_stop_flag_write(philo->table) == true)
+		return (false);
+	printf("%ld %d is thinking\n", get_current_ms_time() \
+			- philo->table->eat_start_time, philo->id);
+	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_unlock(&philo->table->write_lock);
+	return (true);
 }
 
-void	philo_sleeping(t_philo *philo)
+bool	philo_sleeping(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->write_lock);
-	if (philo->table->stop_flag == true)
-	{
-		pthread_mutex_unlock(&philo->table->write_lock);
-		return ;
-	}
-	printf("%ld %d is sleeping\n", get_current_ms_time() - philo->table->eat_start_time, philo->id);
+	if (check_stop_flag_write(philo->table) == true)
+		return (false);
+	printf("%ld %d is sleeping\n", get_current_ms_time() \
+			- philo->table->eat_start_time, philo->id);
+	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_unlock(&philo->table->write_lock);
-		ft_usleep(philo->table->sleep_time);
+	ft_usleep(philo->table->sleep_time);
+	return (true);
 }
 
-void	philo_eating(t_philo *philo)
+bool	philo_eating(t_philo *philo)
 {
-	lock_fork(philo);
-	if (check_dead_philo(philo) == true)
-	{
-		pthread_mutex_lock(&philo->table->stop_lock);
-		philo->table->stop_flag = true;
-		pthread_mutex_unlock(&philo->table->stop_lock);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		return ;
-	}
+	if (lock_fork(philo) == false)
+		return (false);
 	pthread_mutex_lock(&philo->table->write_lock);
-	if (philo->table->stop_flag == true)
-	{
-		pthread_mutex_unlock(&philo->table->write_lock);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		return ;
-	}
-	printf("%ld %d is eating\n", get_current_ms_time() - philo->table->eat_start_time, philo->id);
+	if (check_philo_loop_dead(philo) == false)
+		return (false);
+	printf("%ld %d is eating\n", get_current_ms_time() \
+			- philo->table->eat_start_time, philo->id);
+	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_unlock(&philo->table->write_lock);
 	pthread_mutex_lock(philo->eat_count_lock);
 	philo->eat_count++;
-	philo->last_eat_time = get_current_ms_time();
 	pthread_mutex_unlock(philo->eat_count_lock);
-		ft_usleep(philo->table->eat_time);
+	philo->last_eat_time = get_current_ms_time();
+	ft_usleep(philo->table->eat_time);
 	unlock_fork(philo);
+	return (true);
 }
 
 void	*philo_loop(void *arg)
 {
-	t_philo *philo;
-
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	wait_start_dinner_time(philo->table);
@@ -89,15 +77,17 @@ void	*philo_loop(void *arg)
 		return (only_philo(philo), NULL);
 	if (philo->id % 2 != 0)
 		ft_usleep(philo->table->eat_time);
-	while (philo->table->stop_flag == false)
+	while (true)
 	{
-		philo_eating(philo);
-		if (philo->table->stop_flag == true)
-			break;
-		philo_sleeping(philo);
-		if (philo->table->stop_flag == true)
-			break;
-		philo_thinking(philo);
+		if (philo_eating(philo) == false)
+			return (NULL);
+		check_eat_flag(philo);
+		if (philo_sleeping(philo) == false)
+			return (NULL);
+		if (philo_thinking(philo) == false)
+			return (NULL);
+		if (philo->table->eat_count_goal == philo->eat_count)
+			return (NULL);
 	}
 	return (NULL);
 }

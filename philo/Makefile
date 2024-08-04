@@ -6,12 +6,12 @@
 #    By: yususato <yususato@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/12 21:36:18 by yususato          #+#    #+#              #
-#    Updated: 2024/07/16 13:41:19 by yususato         ###   ########.fr        #
+#    Updated: 2024/08/04 16:14:20 by yususato         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
-CC = cc
+CC = cc -Wall -Wextra -Werror
 INCLUDES_DIR = ./includes
 CFLAGS =-I$(INCLUDES_DIR)
 SRCS =  philo.c \
@@ -23,6 +23,9 @@ SRCS =  philo.c \
 		philo_utils.c \
 		check_argument.c \
 		philo_observe.c \
+		philo_loop_utils.c \
+		ft_atoi.c \
+		philo_mutex_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
