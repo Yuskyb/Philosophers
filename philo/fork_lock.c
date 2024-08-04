@@ -34,8 +34,8 @@ bool	lock_rightfork(t_philo *philo)
 	pthread_mutex_lock(&philo->table->write_lock);
 	if (check_stop_flag_write(philo->table) == true)
 	{
-		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return (false);
 	}
 	printf("%ld %d has taken a fork\n", \

@@ -15,7 +15,7 @@
 bool	thread_init(t_table_info *table_tmp, t_philo *philo_tmp \
 						, int philo_count)
 {
-	int			index;
+	int	index;
 
 	index = 0;
 	while (index < table_tmp->philo_count)
@@ -83,12 +83,10 @@ void	fork_eat_mutex_insert(t_philo *philo \
 
 bool	fork_eat_init(t_philo *philo, int philo_count)
 {
-	int				index;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*eat_count_lock;
 	pthread_mutex_t	*full_eat_flag_lock;
 
-	index = 0;
 	eat_count_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) \
 						* philo_count);
 	if (eat_count_lock == NULL)
