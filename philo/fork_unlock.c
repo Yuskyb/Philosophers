@@ -24,6 +24,6 @@ void	unlock_rightfork(t_philo *philo)
 
 void	unlock_fork(t_philo *philo)
 {
-	unlock_leftfork(philo);
 	unlock_rightfork(philo);
+	unlock_leftfork(philo);
 }

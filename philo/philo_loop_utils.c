@@ -29,8 +29,8 @@ bool	check_stop_flag_write(t_table_info *table)
 	pthread_mutex_lock(&table->stop_lock);
 	if (table->stop_flag)
 	{
-		pthread_mutex_unlock(&table->stop_lock);
 		pthread_mutex_unlock(&table->write_lock);
+		pthread_mutex_unlock(&table->stop_lock);
 		return (true);
 	}
 	pthread_mutex_unlock(&table->stop_lock);
@@ -42,10 +42,10 @@ bool	check_philo_loop_dead(t_philo *philo)
 	pthread_mutex_lock(&philo->table->stop_lock);
 	if (philo->table->stop_flag == true)
 	{
-		pthread_mutex_unlock(&philo->table->stop_lock);
 		pthread_mutex_unlock(&philo->table->write_lock);
-		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(&philo->table->stop_lock);
 		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return (false);
 	}
 	return (true);

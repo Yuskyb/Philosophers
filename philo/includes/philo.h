@@ -102,5 +102,6 @@ bool	check_stop_flag(t_table_info *table);
 void	check_full_eat_flag(t_philo *philo);
 bool	observe_full_eat_flag(t_philo *philo);
 bool	check_stop_flag_write(t_table_info *table);
+void	check_main_stop_flag(t_table_info *table);
 
 #endif

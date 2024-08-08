@@ -29,8 +29,8 @@ bool	philo_thinking(t_philo *philo)
 		return (false);
 	printf("%ld %d is thinking\n", get_current_ms_time() \
 			- philo->table->eat_start_time, philo->id);
-	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_unlock(&philo->table->write_lock);
+	pthread_mutex_unlock(&philo->table->stop_lock);
 	return (true);
 }
 
@@ -41,8 +41,8 @@ bool	philo_sleeping(t_philo *philo)
 		return (false);
 	printf("%ld %d is sleeping\n", get_current_ms_time() \
 			- philo->table->eat_start_time, philo->id);
-	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_unlock(&philo->table->write_lock);
+	pthread_mutex_unlock(&philo->table->stop_lock);
 	ft_usleep(philo->table->sleep_time);
 	return (true);
 }
@@ -56,8 +56,8 @@ bool	philo_eating(t_philo *philo)
 		return (false);
 	printf("%ld %d is eating\n", get_current_ms_time() \
 			- philo->table->eat_start_time, philo->id);
-	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_unlock(&philo->table->write_lock);
+	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_lock(philo->eat_count_lock);
 	philo->eat_count++;
 	pthread_mutex_unlock(philo->eat_count_lock);

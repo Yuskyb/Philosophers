@@ -12,6 +12,13 @@
 
 #include "philo.h"
 
+void	check_main_stop_flag(t_table_info *table)
+{
+	pthread_mutex_lock(&table->stop_lock);
+	table->stop_flag = true;
+	pthread_mutex_unlock(&table->stop_lock);
+}
+
 void	wait_start_dinner_time(t_table_info *table)
 {
 	while (table->eat_start_time > get_current_ms_time())

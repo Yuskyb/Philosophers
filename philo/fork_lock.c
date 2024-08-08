@@ -23,8 +23,8 @@ bool	lock_leftfork(t_philo *philo)
 	}
 	printf("%ld %d has taken a fork\n", get_current_ms_time() \
 			- philo->table->eat_start_time, philo->id);
-	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_unlock(&philo->table->write_lock);
+	pthread_mutex_unlock(&philo->table->stop_lock);
 	return (true);
 }
 
@@ -40,8 +40,8 @@ bool	lock_rightfork(t_philo *philo)
 	}
 	printf("%ld %d has taken a fork\n", \
 		get_current_ms_time() - philo->table->eat_start_time, philo->id);
-	pthread_mutex_unlock(&philo->table->stop_lock);
 	pthread_mutex_unlock(&philo->table->write_lock);
+	pthread_mutex_unlock(&philo->table->stop_lock);
 	return (true);
 }
 

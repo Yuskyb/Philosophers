@@ -95,7 +95,7 @@ int	main(int ac, char **av)
 	if (table_philo_mutex_init(table, philo, ft_atoi(av[1])) == false)
 		return (0);
 	if (thread_init(table, philo, ft_atoi(av[1])) == false)
-		table->stop_flag = true;
+		check_main_stop_flag(table);
 	if (thread_end(table, philo) == false)
 		return (ft_free_table(table), 0);
 	if (destroy_fork(table, philo, ft_atoi(av[1])) == false)
